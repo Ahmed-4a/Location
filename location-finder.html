@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Code Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        input[type="button"] {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Area Code Search</h2>
+        <div>
+            <input type="text" id="areaCode" placeholder="Enter Area Code (e.g., 843)">
+            <input type="button" value="Search" onclick="searchAreaCode()">
+        </div>
+
+        <div class="result" id="result">
+            <!-- Results will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            { code: "843", company: "Infinity Travel", location: "Myrtle Beach, SC" },
+            { code: "801", company: "Great Vacations", location: "Draper, UT" },
+            { code: "407-321", company: "Holidays Travel", location: "Orlando, FL" },
+            { code: "352-863", company: "Holidays Travel", location: "Orlando, FL" },
+            { code: "727-813-941", company: "Arcadia Travel", location: "St Petersburg, FL" },
+            { code: "865-423", company: "Arcadia Travel", location: "Sevierville, TN" },
+            { code: "757-804", company: "Elite Travel", location: "Virginia Beach, VA" },
+            { code: "862-973", company: "Beacon Travel", location: "Parsippany, NJ" },
+            { code: "954-561", company: "Prime Travel", location: "Boca Raton, FL" },
+            { code: "954-305-786", company: "Holidays Travel", location: "Sunny Isles Beach, FL" },
+            { code: "952-612-651-763", company: "Travel Resorts Of America", location: "Bloomington, MN" },
+            { code: "512", company: "Great Resort Vacations", location: "Pflugerville, TX" },
+            { code: "323", company: "Travel Transparency", location: "Sherman Oaks, CA" },
+            { code: "317", company: "Travel Club", location: "Indianapolis, IN" },
+            { code: "602", company: "Holiday Travel", location: "Scottsdale, AZ" },
+            { code: "863", company: "Exploria Travel", location: "Orlando, Clermont & Indian Rocks Beach, FL" },
+            { code: "352-386", company: "Exploria Travel", location: "Orlando, Daytona Beach, FL" },
+            { code: "407-321", company: "Exploria Travel", location: "Orlando, FL" }
+        ];
+
+        function searchAreaCode() {
+            const areaCodeInput = document.getElementById('areaCode').value.trim();
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';  // Clear any previous results
+
+            if (areaCodeInput === '') {
+                resultDiv.innerHTML = '<p style="color: red;">Please enter an area code to search.</p>';
+                return;
+            }
+
+            const foundData = data.filter(entry => entry.code.includes(areaCodeInput));
+
+            if (foundData.length > 0) {
+                foundData.forEach(entry => {
+                    resultDiv.innerHTML += `
+                        <p><strong>Company:</strong> ${entry.company} <br> 
+                        <strong>Location:</strong> ${entry.location}</p>
+                    `;
+                });
+            } else {
+                resultDiv.innerHTML = '<p style="color: red;">No results found for this area code.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
