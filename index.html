@@ -24,20 +24,26 @@
         }
         input[type="text"] {
             width: 80%;
-            padding: 8px;
+            padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
         }
         input[type="button"] {
-            padding: 8px 16px;
+            padding: 10px 16px;
             font-size: 16px;
             background-color: #007BFF;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         input[type="button"]:hover {
             background-color: #0056b3;
@@ -48,6 +54,7 @@
             background-color: #f8f9fa;
             border-radius: 5px;
             border: 1px solid #ddd;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -57,7 +64,7 @@
         <h2>Area Code Search</h2>
         <div>
             <input type="text" id="areaCode" placeholder="Enter Area Code (e.g., 843)">
-            <input type="button" value="Search" onclick="searchAreaCode()">
+            <input type="button" value="Paste & Search" onclick="pasteAndSearch()">
         </div>
 
         <div class="result" id="result">
@@ -86,6 +93,21 @@
             { code: "352-386", company: "Exploria Travel", location: "Orlando, Daytona Beach, FL" },
             { code: "407-321", company: "Exploria Travel", location: "Orlando, FL" }
         ];
+
+        function pasteAndSearch() {
+            const areaCodeInput = document.getElementById('areaCode');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';  // Clear any previous results
+
+            // Example area code to paste into the input field (can be modified)
+            const sampleAreaCode = "843";
+
+            // Auto-paste the sample area code into the input field
+            areaCodeInput.value = sampleAreaCode;
+
+            // Perform the search
+            searchAreaCode();
+        }
 
         function searchAreaCode() {
             const areaCodeInput = document.getElementById('areaCode').value.trim();
