@@ -94,19 +94,22 @@
             { code: "407-321", company: "Exploria Travel", location: "Orlando, FL" }
         ];
 
-        function pasteAndSearch() {
+        // This function handles the pasting from the clipboard and the search.
+        async function pasteAndSearch() {
             const areaCodeInput = document.getElementById('areaCode');
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = '';  // Clear any previous results
 
-            // Example area code to paste into the input field (can be modified)
-            const sampleAreaCode = "843";
+            try {
+                // Attempt to read from the clipboard
+                const clipboardText = await navigator.clipboard.readText();
+                areaCodeInput.value = clipboardText;  // Paste clipboard content into the input
 
-            // Auto-paste the sample area code into the input field
-            areaCodeInput.value = sampleAreaCode;
-
-            // Perform the search
-            searchAreaCode();
+                // Call the search function to search based on the pasted text
+                searchAreaCode();
+            } catch (error) {
+                resultDiv.innerHTML = '<p style="color: red;">Failed to read from clipboard. Please ensure you have copied text first.</p>';
+            }
         }
 
         function searchAreaCode() {
