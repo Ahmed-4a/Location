@@ -6,55 +6,86 @@
     <title>Area Code Search</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
         }
+
         .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
+            max-width: 480px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
-            color: #333;
         }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
         input[type="text"] {
-            width: 80%;
-            padding: 10px;
+            width: 85%;
+            padding: 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
             transition: border-color 0.3s ease;
         }
+
         input[type="text"]:focus {
             border-color: #007BFF;
             outline: none;
         }
+
         input[type="button"] {
-            padding: 10px 16px;
+            width: 85%;
+            padding: 12px;
             font-size: 16px;
             background-color: #007BFF;
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 20px;
         }
+
         input[type="button"]:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
+
         .result {
             margin-top: 20px;
             padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
             border: 1px solid #ddd;
+            color: #333;
             font-size: 14px;
+            text-align: left;
+        }
+
+        .result p {
+            margin: 8px 0;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .empty {
+            color: #95a5a6;
         }
     </style>
 </head>
@@ -62,11 +93,9 @@
 
     <div class="container">
         <h2>Area Code Search</h2>
-        <div>
-            <input type="text" id="areaCode" placeholder="Enter Area Code (e.g., 843)">
-            <input type="button" value="Paste & Search" onclick="pasteAndSearch()">
-        </div>
-
+        <input type="text" id="areaCode" placeholder="Enter Area Code (e.g., 843)">
+        <input type="button" value="Paste & Search" onclick="pasteAndSearch()">
+        
         <div class="result" id="result">
             <!-- Results will appear here -->
         </div>
@@ -94,31 +123,27 @@
             { code: "407-321", company: "Exploria Travel", location: "Orlando, FL" }
         ];
 
-        // This function handles the pasting from the clipboard and the search.
         async function pasteAndSearch() {
             const areaCodeInput = document.getElementById('areaCode');
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = '';  // Clear any previous results
 
             try {
-                // Attempt to read from the clipboard
                 const clipboardText = await navigator.clipboard.readText();
-                areaCodeInput.value = clipboardText;  // Paste clipboard content into the input
-
-                // Call the search function to search based on the pasted text
+                areaCodeInput.value = clipboardText; // Paste clipboard content into the input field
                 searchAreaCode();
             } catch (error) {
-                resultDiv.innerHTML = '<p style="color: red;">Failed to read from clipboard. Please ensure you have copied text first.</p>';
+                resultDiv.innerHTML = '<p class="error">Failed to read from clipboard. Ensure you have copied text first.</p>';
             }
         }
 
         function searchAreaCode() {
             const areaCodeInput = document.getElementById('areaCode').value.trim();
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';  // Clear any previous results
+            resultDiv.innerHTML = ''; // Clear any previous results
 
             if (areaCodeInput === '') {
-                resultDiv.innerHTML = '<p style="color: red;">Please enter an area code to search.</p>';
+                resultDiv.innerHTML = '<p class="error">Please enter an area code to search.</p>';
                 return;
             }
 
@@ -131,8 +156,9 @@
                         <strong>Location:</strong> ${entry.location}</p>
                     `;
                 });
+                resultDiv.classList.add('success');
             } else {
-                resultDiv.innerHTML = '<p style="color: red;">No results found for this area code.</p>';
+                resultDiv.innerHTML = '<p class="empty">No results found for this area code.</p>';
             }
         }
     </script>
