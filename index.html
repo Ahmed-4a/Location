@@ -20,6 +20,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative;
         }
 
         h2 {
@@ -102,14 +103,56 @@
         .empty {
             color: #95a5a6;
         }
+
+        /* Toggle Button Styles */
+        .toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-container:hover {
+            background-color: #e1e1e1;
+        }
+
+        .toggle {
+            width: 20px;
+            height: 20px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-container.toggle-on .toggle {
+            transform: translateX(20px);
+            background-color: #2c3e50;
+        }
+
     </style>
 </head>
 <body>
 
+    <div class="toggle-container" onclick="toggleMode()">
+        <div class="toggle"></div>
+    </div>
+
     <div class="container">
         <h2>Area Code Search</h2>
         <input type="text" id="areaCode" placeholder="Enter Area Code (e.g., 843)">
-        <input type="button" value="Paste & Search" onclick="pasteAndSearch()">
+        
+        <!-- Search button -->
+        <input type="button" value="Search" id="searchButton" onclick="searchAreaCode()">
         
         <div class="result" id="result">
             <!-- Results will appear here -->
@@ -137,6 +180,21 @@
             { code: "352-386", company: "Exploria Travel", location: "Orlando, Daytona Beach, FL" },
             { code: "407-321", company: "Exploria Travel", location: "Orlando, FL" }
         ];
+
+        let isPasteMode = false; // Track toggle state
+
+        function toggleMode() {
+            isPasteMode = !isPasteMode;
+            const searchButton = document.getElementById('searchButton');
+
+            if (isPasteMode) {
+                searchButton.value = "Paste & Search";
+                searchButton.setAttribute("onclick", "pasteAndSearch()"); // Change function to paste
+            } else {
+                searchButton.value = "Search";
+                searchButton.setAttribute("onclick", "searchAreaCode()"); // Revert to search function
+            }
+        }
 
         async function pasteAndSearch() {
             const areaCodeInput = document.getElementById('areaCode');
@@ -178,5 +236,6 @@
             }
         }
     </script>
+
 </body>
 </html>
